@@ -1,0 +1,16 @@
+{
+  "name": "Islamic Guide Pro",
+  "short_name": "Islamic Guide",
+  "description": "Islamic Guide Pro - Namaz, Quran, Tasbeeh",
+  "start_url": "/Islamic-guide-pro/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/4121/4121144.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
