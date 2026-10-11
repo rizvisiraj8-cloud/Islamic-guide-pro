@@ -207,5 +207,10 @@ function toggleDark(){document.body.classList.toggle('dark');try{localStorage.se
 try{if(localStorage.getItem('islamicDark')==='1')document.body.classList.add('dark')}catch(e){}
 applyLanguage();
 </script>
+<script>
+ if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>
