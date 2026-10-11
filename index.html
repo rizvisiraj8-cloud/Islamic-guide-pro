@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07583f">
+<title>اسلامک گائیڈ پرو انٹرنیشنل</title>
+<style>
+:root{--green:#07583f;--green2:#0c8a60;--gold:#e7c875;--bg:#f4f6f0;--card:#fff;--text:#173b2c;--muted:#718074}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Naskh Arabic",sans-serif;background:var(--bg);color:var(--text);transition:.25s}
+header{background:linear-gradient(135deg,#043b2b,#0b8059);color:white;padding:26px 16px 24px;text-align:center;border-radius:0 0 28px 28px}
+.logo{font-size:43px}header h1{font-size:25px;margin:8px 0}header p{color:#f5e7b6;margin:6px 0}
+.wrap{max-width:850px;margin:auto;padding:12px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:12px 0}
+button,select,input{font-family:inherit;font-size:15px}button{background:var(--green);color:white;border:0;padding:12px 15px;border-radius:12px;cursor:pointer}button:active{transform:scale(.98)}button.secondary{background:#e8f1e9;color:#07583f}
+input,select{width:100%;padding:13px;border:1px solid #d9e1d5;border-radius:12px;background:white;color:#173b2c}
+.searchrow{display:flex;gap:8px;margin:12px 0}.searchrow input{flex:1;min-width:0}.searchrow button{white-space:nowrap}
+.card{background:var(--card);border:1px solid #e1e9dd;border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 4px 15px #173b2c0a}
+.card h2,.card h3{margin-top:0}h2{font-size:20px}h3{font-size:17px}.muted{color:var(--muted);font-size:13px;line-height:1.8}
+.status{padding:12px;border-radius:12px;background:#edf5ed;color:#205a3d;line-height:1.8;margin:10px 0}
+.hero{background:linear-gradient(135deg,#07583f,#0b9165);color:white}.hero .muted{color:#e2f2e8}.location-name{font-size:19px;font-weight:bold;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.feature{padding:17px 8px;text-align:center;cursor:pointer}.feature .icon{font-size:30px}.feature h3{color:var(--green);margin:8px 0}.feature p{font-size:12px;color:var(--muted);margin:0}
+.times{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.timebox{background:#f1f6ee;border-radius:13px;padding:12px;text-align:center}.timebox strong{display:block;font-size:17px;margin-top:5px}.timebox span{font-size:13px;color:#607266}
+.arabic{font-family:"Times New Roman",serif;font-size:26px;text-align:center;line-height:2;color:var(--green);direction:rtl}
+.hidden{display:none!important}#compass{width:190px;height:190px;border:7px solid #d8e5d6;border-radius:50%;margin:18px auto;position:relative;background:radial-gradient(circle,#fff 0%,#edf4e9 70%)}
+#needle{position:absolute;width:4px;height:70px;background:#d83232;left:50%;top:23px;transform-origin:50% 72px;transform:translateX(-50%) rotate(0deg);border-radius:5px}
+#needle:after{content:"";position:absolute;bottom:-8px;left:-5px;border-left:7px solid transparent;border-right:7px solid transparent;border-top:12px solid #07583f}
+.north{position:absolute;top:6px;left:50%;transform:translateX(-50%);font-weight:bold;color:#c22}.centerdot{position:absolute;top:50%;left:50%;width:14px;height:14px;background:#07583f;border:3px solid white;border-radius:50%;transform:translate(-50%,-50%)}
+.note{background:#fff8e4;border-right:4px solid var(--gold);padding:12px;border-radius:10px;line-height:1.9;font-size:14px;margin:10px 0}
+a{color:#087653}footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+body.dark{--bg:#101a15;--card:#1c2a22;--text:#e4f0e7;--muted:#b1c0b4}body.dark .card{border-color:#35483a}body.dark input,body.dark select{background:#1c2a22;color:white;border-color:#425647}body.dark .secondary{background:#314637;color:white}body.dark .status{background:#293c2e;color:#e2f2e8}body.dark .timebox{background:#293c2e}body.dark .arabic{color:#a8e5bb}body.dark #compass{background:#eaf3e7}body.dark .note{color:#24372a}
+body[dir="ltr"] .note{border-right:0;border-left:4px solid var(--gold)}body[dir="ltr"] .searchrow button{text-align:center}
+@media(min-width:650px){.times{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">☪</div>
+ <h1 id="appTitle">اسلامک گائیڈ پرو</h1>
+ <p id="appSubtitle">انٹرنیشنل اسلامی رہنمائی</p>
+ <p>بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+</header>
+<main class="wrap">
+<div class="toolbar">
+ <button id="locationBtn" onclick="getLocation()">📍 میری لوکیشن</button>
+ <button class="secondary" id="langBtn" onclick="toggleLanguage()">🌐 English</button>
+ <button class="secondary" id="darkBtn" onclick="toggleDark()">🌙 ڈارک موڈ</button>
+</div>
+<section class="card hero">
+ <div class="muted" id="currentPlaceLabel">آپ کا موجودہ مقام</div>
+ <div id="place" class="location-name">مقام معلوم کریں</div>
+ <div id="date"></div>
+ <p class="muted" id="locationStatus">نماز کے اوقات دیکھنے کے لیے اپنی لوکیشن کی اجازت دیں۔</p>
+</section>
+<section class="card">
+ <h2 id="cityHeading">🌍 شہر تلاش کریں</h2>
+ <div class="searchrow"><input id="cityInput" placeholder="مثلاً Karachi یا London"><button id="searchBtn" onclick="searchCity()">تلاش</button></div>
+ <p class="muted" id="cityHelp">شہر کا نام انگریزی میں لکھیں۔ درست مقام منتخب کرنے کے لیے انٹرنیٹ ضروری ہے۔</p>
+ <div id="cityResults"></div>
+</section>
+<section class="card">
+ <h2 id="prayerHeading">🕌 آج کے نماز کے اوقات</h2>
+ <div class="muted" id="methodLabel">حساب کا طریقہ: کراچی • عصر: حنفی</div>
+ <div id="prayerStatus" class="status">پہلے اپنی لوکیشن معلوم کریں۔</div>
+ <div id="prayerTimes" class="times"></div>
+ <p class="muted" id="prayerNote">اوقات مقامی وقت کے مطابق API سے حاصل کیے جاتے ہیں۔ مقامی مسجد کے مستند اوقات سے موازنہ کرلیں۔</p>
+ <button id="refreshBtn" onclick="refreshPrayerTimes()">🔄 اوقات دوبارہ حاصل کریں</button>
+</section>
+<section class="card">
+ <h2 id="qiblaHeading">🕋 قبلے کی سمت</h2>
+ <p class="muted" id="qiblaIntro">اپنی لوکیشن حاصل کرکے قبلے کا زاویہ معلوم کریں۔</p>
+ <div id="compass"><div class="north">N</div><div id="needle"></div><div class="centerdot"></div></div>
+ <div class="arabic" id="qiblaAngle">—°</div>
+ <div id="qiblaStatus" class="status">پہلے اپنی لوکیشن معلوم کریں۔</div>
+ <button id="compassBtn" onclick="startCompass()">🧭 کمپاس شروع کریں</button>
+ <p class="muted" id="compassNote">موبائل کو ہموار رکھیں۔ کمپاس کی درستگی سینسر اور اردگرد کے مقناطیسی اثرات پر منحصر ہے۔</p>
+</section>
+<h2 id="featuresHeading">🌙 اسلامی سہولتیں</h2>
+<div class="grid">
+ <div class="card feature" onclick="openSection('quran')"><div class="icon">📖</div><h3 data-key="featureQuran">قرآن کریم</h3><p data-key="featureQuranSub">کنز الایمان کا آن لائن ماخذ</p></div>
+ <div class="card feature" onclick="openSection('dua')"><div class="icon">🤲</div><h3 data-key="featureDua">دعائیں</h3><p data-key="featureDuaSub">روزمرہ کی دعائیں</p></div>
+ <div class="card feature" onclick="openSection('prayer')"><div class="icon">🕌</div><h3 data-key="featurePrayer">نماز سیکھیں</h3><p data-key="featurePrayerSub">فرض رکعتیں</p></div>
+ <div class="card feature" onclick="openSection('wudu')"><div class="icon">💧</div><h3 data-key="featureWudu">وضو</h3><p data-key="featureWuduSub">وضو کی بنیادی تعلیم</p></div>
+ <div class="card feature" onclick="openSection('hadith')"><div class="icon">📚</div><h3 data-key="featureHadith">احادیث</h3><p data-key="featureHadithSub">احادیث اور حوالے</p></div>
+ <div class="card feature" onclick="openSection('dhikr')"><div class="icon">📿</div><h3 data-key="featureDhikr">اذکار</h3><p data-key="featureDhikrSub">روزانہ کے اذکار</p></div>
+</div>
+<section id="details" class="card hidden"><button id="backBtn" onclick="closeSection()">⬅ واپس</button><div id="detailContent"></div></section>
+<footer id="footerText">اسلامک گائیڈ پرو انٹرنیشنل © 2026<br>دینی معلومات مستند ماخذ سے تصدیق کرکے استعمال کریں۔</footer>
+</main>
+<script>
+let currentLat=null,currentLon=null,qiblaBearing=null,compassHeading=null,compassStarted=false;
+let lang='ur',currentPage=null;
+const T={
+ur:{
+appTitle:'اسلامک گائیڈ پرو',appSubtitle:'انٹرنیشنل اسلامی رہنمائی',locationBtn:'📍 میری لوکیشن',langBtn:'🌐 English',darkBtn:'🌙 ڈارک موڈ',
+currentPlaceLabel:'آپ کا موجودہ مقام',placeDefault:'مقام معلوم کریں',locationAsk:'نماز کے اوقات دیکھنے کے لیے اپنی لوکیشن کی اجازت دیں۔',
+cityHeading:'🌍 شہر تلاش کریں',cityPlaceholder:'مثلاً Karachi یا London',searchBtn:'تلاش',cityHelp:'شہر کا نام انگریزی میں لکھیں۔ درست مقام منتخب کرنے کے لیے انٹرنیٹ ضروری ہے۔',
+prayerHeading:'🕌 آج کے نماز کے اوقات',methodLabel:'حساب کا طریقہ: کراچی • عصر: حنفی',prayerInitial:'پہلے اپنی لوکیشن معلوم کریں۔',prayerNote:'اوقات مقامی وقت کے مطابق API سے حاصل کیے جاتے ہیں۔ مقامی مسجد کے مستند اوقات سے موازنہ کرلیں۔',refreshBtn:'🔄 اوقات دوبارہ حاصل کریں',
+qiblaHeading:'🕋 قبلے کی سمت',qiblaIntro:'اپنی لوکیشن حاصل کرکے قبلے کا زاویہ معلوم کریں۔',qiblaInitial:'پہلے اپنی لوکیشن معلوم کریں۔',compassBtn:'🧭 کمپاس شروع کریں',compassNote:'موبائل کو ہموار رکھیں۔ کمپاس کی درستگی سینسر اور اردگرد کے مقناطیسی اثرات پر منحصر ہے۔',
+featuresHeading:'🌙 اسلامی سہولتیں',featureQuran:'قرآن کریم',featureQuranSub:'کنز الایمان کا آن لائن ماخذ',featureDua:'دعائیں',featureDuaSub:'روزمرہ کی دعائیں',featurePrayer:'نماز سیکھیں',featurePrayerSub:'فرض رکعتیں',featureWudu:'وضو',featureWuduSub:'وضو کی بنیادی تعلیم',featureHadith:'احادیث',featureHadithSub:'احادیث اور حوالے',featureDhikr:'اذکار',featureDhikrSub:'روزانہ کے اذکار',
+backBtn:'⬅ واپس',footerText:'اسلامک گائیڈ پرو انٹرنیشنل © 2026<br>دینی معلومات مستند ماخذ سے تصدیق کرکے استعمال کریں۔',
+locUnavailable:'آپ کے براؤزر میں لوکیشن کی سہولت دستیاب نہیں۔',locLoading:'آپ کی لوکیشن معلوم کی جا رہی ہے...',locSuccess:'لوکیشن حاصل ہوگئی۔ نماز کے اوقات اور قبلہ معلوم ہو رہے ہیں۔',locError:'لوکیشن نہیں مل سکی۔ براہ کرم اجازت دیں اور HTTPS ویب سائٹ یا معاون براؤزر میں کھولیں۔',currentPlace:'موجودہ مقام',
+cityEmpty:'شہر کا نام درج کریں۔',citySearching:'شہر تلاش کیا جا رہا ہے...',cityNotFound:'شہر نہیں ملا۔ نام دوبارہ لکھیں۔',cityError:'شہر تلاش نہیں ہو سکا۔ انٹرنیٹ چیک کریں۔',selectedPlace:'منتخب مقام استعمال ہو رہا ہے۔',
+prayerLoading:'نماز کے اوقات حاصل ہو رہے ہیں...',prayerNoLocation:'پہلے اپنی لوکیشن معلوم کریں یا شہر تلاش کریں۔',prayerSuccess:'اوقات حاصل ہوگئے۔ حساب کا طریقہ: کراچی؛ عصر کے لیے حنفی انتخاب۔',prayerError:'اوقات حاصل نہیں ہو سکے۔ انٹرنیٹ چیک کرکے دوبارہ کوشش کریں۔',
+qiblaLoading:'قبلے کا زاویہ معلوم کیا جا رہا ہے...',qiblaSuccess:'شمال سے گھڑی کی سمت قبلے کا زاویہ دکھایا گیا ہے۔ کمپاس کے لیے سینسر شروع کریں۔',qiblaError:'قبلے کا زاویہ حاصل نہیں ہوا۔ انٹرنیٹ چیک کریں۔',qiblaNoLocation:'پہلے لوکیشن معلوم کریں یا شہر منتخب کریں۔',
+compassNoBearing:'پہلے لوکیشن معلوم کرکے قبلے کا زاویہ حاصل کریں۔',compassDenied:'کمپاس سینسر کی اجازت نہیں ملی۔',compassStarted:'کمپاس شروع کرنے کی درخواست بھیج دی گئی۔ موبائل کو ہموار رکھیں۔',compassUnavailable:'کمپاس دستیاب نہیں۔ صرف قبلے کا زاویہ استعمال کریں۔',
+prayers:[['فجر','Fajr'],['طلوعِ آفتاب','Sunrise'],['ظہر','Dhuhr'],['عصر (حنفی)','Asr'],['مغرب','Maghrib'],['عشاء','Isha']]
+},
+en:{
+appTitle:'Islamic Guide Pro',appSubtitle:'International Islamic Guidance',locationBtn:'📍 My Location',langBtn:'🌐 اردو',darkBtn:'🌙 Dark Mode',
+currentPlaceLabel:'Your current location',placeDefault:'Find your location',locationAsk:'Allow location access to view prayer times.',cityHeading:'🌍 Search City',cityPlaceholder:'e.g. Karachi or London',searchBtn:'Search',cityHelp:'Enter the city name in English. Internet is required to find a place.',
+prayerHeading:'🕌 Today’s Prayer Times',methodLabel:'Calculation method: Karachi • Asr: Hanafi',prayerInitial:'Find your location first.',prayerNote:'Times are retrieved from an API for local time. Please compare with a trusted local mosque timetable.',refreshBtn:'🔄 Refresh Prayer Times',
+qiblaHeading:'🕋 Qibla Direction',qiblaIntro:'Find your location to calculate the Qibla bearing.',qiblaInitial:'Find your location first.',compassBtn:'🧭 Start Compass',compassNote:'Keep the phone level. Compass accuracy depends on your sensor and nearby magnetic interference.',
+featuresHeading:'🌙 Islamic Features',featureQuran:'The Holy Qur’an',featureQuranSub:'Online source for Kanz-ul-Iman',featureDua:'Duas',featureDuaSub:'Everyday supplications',featurePrayer:'Learn Salah',featurePrayerSub:'Obligatory rak‘ahs',featureWudu:'Wudu',featureWuduSub:'Basic ablution guide',featureHadith:'Hadith',featureHadithSub:'Hadith and references',featureDhikr:'Dhikr',featureDhikrSub:'Daily remembrance',
+backBtn:'⬅ Back',footerText:'Islamic Guide Pro International © 2026<br>Verify religious information with reliable sources.',
+locUnavailable:'Location is not available in this browser.',locLoading:'Getting your location...',locSuccess:'Location found. Loading prayer times and Qibla direction...',locError:'Could not get location. Allow permission and use an HTTPS website or a supported browser.',currentPlace:'Current location',
+cityEmpty:'Please enter a city name.',citySearching:'Searching for city...',cityNotFound:'City not found. Please try another name.',cityError:'Could not search for the city. Check your internet connection.',selectedPlace:'Using the selected location.',
+prayerLoading:'Loading prayer times...',prayerNoLocation:'Find your location or search for a city first.',prayerSuccess:'Prayer times loaded. Calculation method: Karachi; Hanafi option selected for Asr.',prayerError:'Could not load prayer times. Check your internet and try again.',
+qiblaLoading:'Calculating Qibla bearing...',qiblaSuccess:'The Qibla bearing is measured clockwise from north. Start the sensor for compass guidance.',qiblaError:'Could not get the Qibla bearing. Check your internet connection.',qiblaNoLocation:'Find your location or select a city first.',
+compassNoBearing:'Get your location and Qibla bearing first.',compassDenied:'Compass sensor permission was not granted.',compassStarted:'Compass start requested. Keep the phone level.',compassUnavailable:'Compass is not available. Use the bearing number instead.',
+prayers:[['Fajr','Fajr'],['Sunrise','Sunrise'],['Dhuhr','Dhuhr'],['Asr (Hanafi)','Asr'],['Maghrib','Maghrib'],['Isha','Isha']]
+}};
+const pages={
+quran:`
+<h2>📖 قرآن کریم | The Holy Qur’an</h2>
+<div class="note"><strong>اردو:</strong> ترجمہ کنز الایمان: اعلیٰ حضرت امام احمد رضا خان رحمۃ اللہ علیہ۔<br><strong>English:</strong> Kanz-ul-Iman translation by Imam Ahmad Raza Khan (may Allah have mercy on him).<br><strong>عربی / Arabic:</strong> قرآن مجید کی اصل عبارت عربی میں ہے۔</div>
+<div class="note"><strong>اردو:</strong> تفسیر خزائن العرفان: صدر الافاضل مولانا نعیم الدین مرادآبادی رحمۃ اللہ علیہ۔<br><strong>English:</strong> Khazain-ul-Irfan commentary by Maulana Naeem-ud-Deen Muradabadi.</div>
+<p><strong>اردو:</strong> قرآن کریم اور ترجمہ کے آن لائن ماخذ کے لیے نیچے دیے گئے لنک کو کھولیں۔</p><p><strong>English:</strong> Open the link below for the online Qur’an and translation.</p>
+<p><a href="https://www.alahazratnetwork.org/quran/" target="_blank" rel="noopener">قرآن کریم کھولیں / Open the Qur’an</a></p><p class="muted">یہ صفحہ انٹرنیٹ کے ساتھ کھلے گا۔ / This page requires internet access.</p>`,
+dua:`
+<h2>🤲 دعائیں | Duas</h2>
+<div class="note"><strong>علم میں اضافے کی دعا | Supplication for more knowledge</strong><div class="arabic">رَبِّ زِدْنِي عِلْمًا</div><strong>اردو:</strong> اے میرے رب! میرے علم میں اضافہ فرما۔<br><strong>English:</strong> My Lord, increase me in knowledge.<br><span class="muted">حوالہ / Reference: سورۃ طٰہٰ / Surah Ta-Ha, 20:114</span></div>
+<div class="note"><strong>کھانے سے پہلے | Before eating</strong><div class="arabic">بِسْمِ اللّٰهِ</div><strong>اردو:</strong> اللہ کے نام سے۔<br><strong>English:</strong> In the name of Allah.</div>
+<div class="note"><strong>کھانے کے بعد | After eating</strong><div class="arabic">الْحَمْدُ لِلّٰهِ</div><strong>اردو:</strong> تمام تعریفیں اللہ کے لیے ہیں۔<br><strong>English:</strong> All praise is for Allah.</div>
+<div class="note"><strong>مسجد میں داخل ہونے کی دعا | When entering the mosque</strong><div class="arabic">اللّٰهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ</div><strong>اردو:</strong> اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے۔<br><strong>English:</strong> O Allah, open for me the doors of Your mercy.</div>`,
+prayer:`
+<h2>🕌 نماز | Salah</h2><div class="note"><strong>اردو: پانچ فرض نمازیں</strong><br>فجر: 2 فرض رکعتیں<br>ظہر: 4 فرض رکعتیں<br>عصر: 4 فرض رکعتیں<br>مغرب: 3 فرض رکعتیں<br>عشاء: 4 فرض رکعتیں<hr><strong>English: Five obligatory prayers</strong><br>Fajr: 2 obligatory rak‘ahs<br>Dhuhr: 4 obligatory rak‘ahs<br>Asr: 4 obligatory rak‘ahs<br>Maghrib: 3 obligatory rak‘ahs<br>Isha: 4 obligatory rak‘ahs</div><p>یہ صرف فرض رکعتوں کی تعداد ہے۔ / These are the obligatory rak‘ahs only. Learn the complete method from a qualified scholar.</p>`,
+wudu:`
+<h2>💧 وضو | Wudu (Ablution)</h2><div class="note"><strong>اردو: وضو کا بنیادی طریقہ</strong><br>1۔ نیت کریں۔<br>2۔ بسم اللہ پڑھیں۔<br>3۔ دونوں ہاتھ کلائیوں سمیت دھوئیں۔<br>4۔ کلی کریں اور ناک میں پانی ڈالیں۔<br>5۔ پورا چہرہ دھوئیں۔<br>6۔ دونوں بازو کہنیوں سمیت دھوئیں۔<br>7۔ سر کا مسح کریں۔<br>8۔ دونوں پاؤں ٹخنوں سمیت دھوئیں۔<hr><strong>English: Basic steps of wudu</strong><br>1. Make the intention.<br>2. Say Bismillah.<br>3. Wash both hands up to the wrists.<br>4. Rinse the mouth and wash the nose.<br>5. Wash the whole face.<br>6. Wash both arms including the elbows.<br>7. Wipe the head.<br>8. Wash both feet including the ankles.</div><p>تفصیلی فقہی مسائل مستند حنفی عالم سے سیکھیں۔ / For detailed rulings, consult a qualified Hanafi scholar.</p>`,
+hadith:`
+<h2>📚 احادیث | Hadith</h2><div class="note"><div class="arabic">إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ</div><strong>اردو:</strong> اعمال کا دارومدار نیتوں پر ہے۔<br><strong>English:</strong> Actions are judged by intentions.<br><span class="muted">حوالہ / Reference: صحیح بخاری / Sahih al-Bukhari, 1</span></div><div class="note"><div class="arabic">الدِّينُ النَّصِيحَةُ</div><strong>اردو:</strong> دین خیرخواہی کا نام ہے۔<br><strong>English:</strong> Religion is sincere counsel.<br><span class="muted">حوالہ / Reference: صحیح مسلم / Sahih Muslim, 55</span></div>`,
+dhikr:`
+<h2>📿 اذکار | Dhikr</h2><div class="note"><div class="arabic">سُبْحَانَ اللّٰهِ</div><strong>اردو:</strong> اللہ پاک ہے۔<br><strong>English:</strong> Glory be to Allah.</div><div class="note"><div class="arabic">الْحَمْدُ لِلّٰهِ</div><strong>اردو:</strong> تمام تعریفیں اللہ کے لیے ہیں۔<br><strong>English:</strong> All praise is for Allah.</div><div class="note"><div class="arabic">اللّٰهُ أَكْبَرُ</div><strong>اردو:</strong> اللہ سب سے بڑا ہے۔<br><strong>English:</strong> Allah is the Greatest.</div><div class="note"><div class="arabic">أَسْتَغْفِرُ اللّٰهَ</div><strong>اردو:</strong> میں اللہ سے بخشش مانگتا ہوں۔<br><strong>English:</strong> I seek forgiveness from Allah.</div>`
+};
+function tr(k){return T[lang][k]||T.ur[k]||k}
+function applyLanguage(){
+ document.documentElement.lang=lang;document.documentElement.dir=lang==='ur'?'rtl':'ltr';
+ const keys=['appTitle','appSubtitle','locationBtn','langBtn','darkBtn','currentPlaceLabel','cityHeading','searchBtn','cityHelp','prayerHeading','methodLabel','prayerNote','refreshBtn','qiblaHeading','qiblaIntro','compassBtn','compassNote','featuresHeading','backBtn','footerText'];
+ keys.forEach(k=>{const el=document.getElementById(k);if(el)el.innerHTML=tr(k)});
+ document.getElementById('cityInput').placeholder=tr('cityPlaceholder');
+ if(currentLat===null)document.getElementById('place').textContent=tr('placeDefault');
+ if(!document.getElementById('prayerTimes').children.length)document.getElementById('prayerStatus').textContent=tr('prayerInitial');
+ if(qiblaBearing===null)document.getElementById('qiblaStatus').textContent=tr('qiblaInitial');
+ document.querySelectorAll('[data-key]').forEach(el=>el.textContent=tr(el.dataset.key));
+ showDate();
+ if(currentPage)document.getElementById('detailContent').innerHTML=pages[currentPage]||'';
+ if(currentLat!==null){refreshPrayerTimes();getQibla()}
+}
+function toggleLanguage(){lang=lang==='ur'?'en':'ur';applyLanguage()}
+function localDateString(){const d=new Date();return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`}
+function showDate(){document.getElementById('date').textContent=new Intl.DateTimeFormat(lang==='ur'?'ur-PK':'en-GB',{dateStyle:'full'}).format(new Date())}
+async function getLocation(){
+ const status=document.getElementById('locationStatus');
+ if(!navigator.geolocation){status.textContent=tr('locUnavailable');return}
+ status.textContent=tr('locLoading');
+ navigator.geolocation.getCurrentPosition(async pos=>{
+ currentLat=pos.coords.latitude;currentLon=pos.coords.longitude;document.getElementById('place').textContent=tr('currentPlace');status.textContent=tr('locSuccess');
+ await reverseGeocode(currentLat,currentLon);await refreshPrayerTimes();await getQibla();
+ },()=>{status.textContent=tr('locError')},{enableHighAccuracy:true,timeout:15000,maximumAge:60000});
+}
+async function reverseGeocode(lat,lon){try{const res=await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);const data=await res.json();const a=data.address||{};const name=a.city||a.town||a.village||a.county||a.state||tr('currentPlace');document.getElementById('place').textContent=a.country?`${name}, ${a.country}`:name}catch(e){document.getElementById('place').textContent=tr('currentPlace')}}
+async function searchCity(){
+ const input=document.getElementById('cityInput').value.trim(),box=document.getElementById('cityResults');
+ if(!input){box.innerHTML=`<div class="status">${tr('cityEmpty')}</div>`;return}
+ box.innerHTML=`<div class="status">${tr('citySearching')}</div>`;
+ try{const res=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&q='+encodeURIComponent(input));const data=await res.json();
+ if(!data.length){box.innerHTML=`<div class="status">${tr('cityNotFound')}</div>`;return}
+ box.innerHTML='';data.forEach(item=>{const b=document.createElement('button');b.className='secondary';b.style.cssText='display:block;width:100%;margin:6px 0;text-align:start';b.textContent=item.display_name;b.onclick=async()=>{currentLat=Number(item.lat);currentLon=Number(item.lon);document.getElementById('place').textContent=item.display_name;document.getElementById('locationStatus').textContent=tr('selectedPlace');box.innerHTML='';await refreshPrayerTimes();await getQibla()};box.appendChild(b)})
+ }catch(e){box.innerHTML=`<div class="status">${tr('cityError')}</div>`}
+}
+async function refreshPrayerTimes(){
+ const box=document.getElementById('prayerTimes'),status=document.getElementById('prayerStatus');
+ if(currentLat===null||currentLon===null){status.textContent=tr('prayerNoLocation');return}
+ status.textContent=tr('prayerLoading');box.innerHTML='';
+ try{const url=`https://api.aladhan.com/v1/timings/${localDateString()}?latitude=${currentLat}&longitude=${currentLon}&method=1&school=1`;const res=await fetch(url);if(!res.ok)throw Error();const json=await res.json();if(json.code!==200)throw Error();const t=json.data.timings;
+ T.ur.prayers.forEach(([ur,key],i)=>{const div=document.createElement('div');div.className='timebox';const label=document.createElement('span');label.textContent=lang==='ur'?ur:T.en.prayers[i][0];const value=document.createElement('strong');value.textContent=t[key]||'—';div.append(label,value);box.appendChild(div)});
+ status.textContent=tr('prayerSuccess')
+ }catch(e){status.textContent=tr('prayerError')}
+}
+async function getQibla(){
+ const status=document.getElementById('qiblaStatus');if(currentLat===null||currentLon===null){status.textContent=tr('qiblaNoLocation');return}
+ status.textContent=tr('qiblaLoading');
+ try{const res=await fetch(`https://api.aladhan.com/v1/qibla/${currentLat}/${currentLon}`);const json=await res.json();if(json.code!==200)throw Error();qiblaBearing=Number(json.data.direction);document.getElementById('qiblaAngle').textContent=`${qiblaBearing.toFixed(1)}°`;updateNeedle();status.textContent=tr('qiblaSuccess')}catch(e){status.textContent=tr('qiblaError')}
+}
+function updateNeedle(){if(qiblaBearing===null)return;let rotation=qiblaBearing;if(compassHeading!==null)rotation=qiblaBearing-compassHeading;document.getElementById('needle').style.transform=`translateX(-50%) rotate(${rotation}deg)`}
+async function startCompass(){
+ const status=document.getElementById('qiblaStatus');if(qiblaBearing===null){status.textContent=tr('compassNoBearing');return}
+ try{if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){const permission=await DeviceOrientationEvent.requestPermission();if(permission!=='granted'){status.textContent=tr('compassDenied');return}}
+ if(!compassStarted){window.addEventListener('deviceorientationabsolute',orientationHandler,true);window.addEventListener('deviceorientation',orientationHandler,true);compassStarted=true}status.textContent=tr('compassStarted')
+ }catch(e){status.textContent=tr('compassUnavailable')}
+}
+function orientationHandler(event){let heading=null;if(typeof event.webkitCompassHeading==='number')heading=event.webkitCompassHeading;else if(typeof event.alpha==='number')heading=360-event.alpha;if(heading!==null){compassHeading=heading;updateNeedle()}}
+function openSection(name){currentPage=name;document.getElementById('details').classList.remove('hidden');document.getElementById('detailContent').innerHTML=pages[name]||'';document.getElementById('details').scrollIntoView({behavior:'smooth'})}
+function closeSection(){currentPage=null;document.getElementById('details').classList.add('hidden');document.getElementById('detailContent').innerHTML=''}
+function toggleDark(){document.body.classList.toggle('dark');try{localStorage.setItem('islamicDark',document.body.classList.contains('dark')?'1':'0')}catch(e){}}
+try{if(localStorage.getItem('islamicDark')==='1')document.body.classList.add('dark')}catch(e){}
+applyLanguage();
+</script>
+</body>
+</html>
